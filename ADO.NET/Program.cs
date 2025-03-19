@@ -26,6 +26,7 @@ namespace ADO.NET
 			
 			//SqlConnection connection = new SqlConnection(CONNECTION_STRING);
 
+			//string cmd = "UPDATE Directors SET first_name = RTRIM(first_name),last_name = RTRIM(last_name)";
 			string cmd = "SELECT title,release_date,FORMATMESSAGE(N'%s %s',first_name,last_name) FROM Movies,Directors WHERE director=director_id";
 			//SqlCommand command = new SqlCommand(cmd, connection);
 
