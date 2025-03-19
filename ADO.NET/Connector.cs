@@ -9,15 +9,14 @@ namespace ADO.NET
 {
 	internal class Connector
 	{
-		public SqlConnection connection = null;
-		public SqlCommand command = null;
-		public SqlDataReader reader = null;
+		public SqlConnection connection;
+		public SqlCommand command;
+		public SqlDataReader reader;
 
 		public Connector(string CONNECTION_STRING, string cmd)
 		{
 			connection = new SqlConnection(CONNECTION_STRING);
-			command = new SqlCommand(cmd, connection);
-			
+			command = new SqlCommand(cmd, connection);			
 		}
 
 		public void OnScreen(int PADDING)
