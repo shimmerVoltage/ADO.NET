@@ -24,34 +24,37 @@ namespace ADO.NET
 				"MultiSubnetFailover=False";
 			Console.WriteLine(CONNECTION_STRING);
 			
-			SqlConnection connection = new SqlConnection(CONNECTION_STRING);
+			//SqlConnection connection = new SqlConnection(CONNECTION_STRING);
 
 			string cmd = "SELECT title,release_date,FORMATMESSAGE(N'%s %s',first_name,last_name) FROM Movies,Directors WHERE director=director_id";
-			SqlCommand command = new SqlCommand(cmd, connection);
+			//SqlCommand command = new SqlCommand(cmd, connection);
 
-			connection.Open();
-			SqlDataReader reader = command.ExecuteReader();
+			//connection.Open();
+			//SqlDataReader reader = command.ExecuteReader();
 
-			if (reader.HasRows)
-			{
-				Console.WriteLine("========================================================================================================");
-				for(int i = 0; i < reader.FieldCount; i++)
-					Console.Write(reader.GetName(i).PadRight(PADDING));
-				Console.WriteLine();
-				Console.WriteLine("========================================================================================================");
-				while (reader.Read())
-				{
-					//Console.WriteLine($"{reader[0].ToString().PadRight(5)}{reader[2].ToString().PadRight(15)}{reader[1].ToString().PadRight(15)}");
-					for(int i = 0; i < reader.FieldCount; i++)
-					{
-						Console.Write(reader[i].ToString().PadRight(PADDING));
-					}
-					Console.WriteLine();
-				}
-			}
+			//if (reader.HasRows)
+			//{
+			//	Console.WriteLine("========================================================================================================");
+			//	for(int i = 0; i < reader.FieldCount; i++)
+			//		Console.Write(reader.GetName(i).PadRight(PADDING));
+			//	Console.WriteLine();
+			//	Console.WriteLine("========================================================================================================");
+			//	while (reader.Read())
+			//	{
+			//		//Console.WriteLine($"{reader[0].ToString().PadRight(5)}{reader[2].ToString().PadRight(15)}{reader[1].ToString().PadRight(15)}");
+			//		for(int i = 0; i < reader.FieldCount; i++)
+			//		{
+			//			Console.Write(reader[i].ToString().PadRight(PADDING));
+			//		}
+			//		Console.WriteLine();
+			//	}
+			//}
 
-			reader.Close();
-			connection.Close();
+			//reader.Close();
+			//connection.Close();
+
+			Connector connector = new Connector(CONNECTION_STRING, cmd);
+			connector.OnScreen(PADDING);
 		}
 	}
 }
