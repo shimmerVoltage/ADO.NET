@@ -1,0 +1,1 @@
+﻿UPDATE Directors SET first_name = TRIM(first_name);	
