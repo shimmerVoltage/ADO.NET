@@ -57,10 +57,33 @@ namespace ADO.NET
 
 			//Connector.Select("*", "Directors");
 			//Connector.Select("title,release_date,FORMATMESSAGE(N'%s %s',first_name,last_name)", "Movies,Directors", "director=director_id");
-			//Connector.InsertDirector("George", "Martin");
+			//Connector.InsertDirector("Martin", "Scorsese");
 			Connector.InsertMovie("The Fifth Element", "1997-05-07", 4);
 			Connector.SelectDirectors();
 			Connector.SelectMovies();
+
+			//string connectionString =
+			//	"Data Source=(localdb)\\MSSQLLocalDB;" +
+			//	"Initial Catalog=Movies;" +
+			//	"Integrated Security=True;" +
+			//	"Connect Timeout=30;" +
+			//	"Encrypt=False;" +
+			//	"TrustServerCertificate=False;" +
+			//	"ApplicationIntent=ReadWrite;" +
+			//	"MultiSubnetFailover=False";
+			//string tableName = "Movies"; 
+			//
+			//using (SqlConnection connection = new SqlConnection(connectionString))
+			//{
+			//	connection.Open();			
+			//	
+			//	string query = $"DBCC CHECKIDENT ('{tableName}', RESEED, 5);";
+			//	using (SqlCommand command = new SqlCommand(query, connection))
+			//	{
+			//		command.ExecuteNonQuery();
+			//		Console.WriteLine("Автоинкремент сброшен.");
+			//	}
+			//}
 		}
 	}
 }
