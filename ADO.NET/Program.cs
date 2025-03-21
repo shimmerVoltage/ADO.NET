@@ -57,7 +57,8 @@ namespace ADO.NET
 
 			//Connector.Select("*", "Directors");
 			//Connector.Select("title,release_date,FORMATMESSAGE(N'%s %s',first_name,last_name)", "Movies,Directors", "director=director_id");
-			Connector.InsertDirector("George", "Martin");
+			//Connector.InsertDirector("George", "Martin");
+			Connector.InsertMovie("The Fifth Element", "1997-05-07", 4);
 			Connector.SelectDirectors();
 			Connector.SelectMovies();
 		}

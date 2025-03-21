@@ -79,5 +79,13 @@ namespace ADO.NET
 			command.ExecuteNonQuery();
 			connection.Close();
 		}
+		public static void InsertMovie(string title, string release_date, short directorId)
+		{			
+			string cmd = $"INSERT Movies(title,release_date,director) VALUES (N'{title}',N'{release_date}',N'{directorId}')";
+		    SqlCommand command = new SqlCommand(cmd, connection);
+			connection.Open();	
+			command.ExecuteNonQuery();
+			connection.Close();
+		}
 	}
 }
