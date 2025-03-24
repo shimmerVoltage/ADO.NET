@@ -10,10 +10,14 @@ namespace ExternalBase
 	{
 		static void Main(string[] args)
 		{
-			Connector.Select("*", "Disciplines");
+			//Connector.Select("*", "Disciplines");
+			Connector.Select("*", "Teachers");
 			Console.WriteLine("---------------------------------");
-			Console.WriteLine(Connector.ReturnID("JavaScript"));
-			Console.WriteLine(Connector.ReturnID("NodeJS"));
+			Console.WriteLine(Connector.ReturnDisciplineID("JavaScript"));
+			Console.WriteLine(Connector.ReturnDisciplineID("NodeJS"));
+			Console.WriteLine("---------------------------------");
+			Console.WriteLine(Connector.ReturnTeacherID("Лялька"));
+			Console.WriteLine(Connector.ReturnTeacherID("Свищев"));
 		}
 	}
 }
