@@ -51,5 +51,24 @@ namespace ExternalBase
 
 			connection.Close();
 		}
+
+		public static int ReturnID(string discipline_name)
+		{
+			string cmd = $"SELECT discipline_id FROM Disciplines WHERE discipline_name=N'{discipline_name}'";			
+			SqlCommand command = new SqlCommand(cmd, connection);
+			connection.Open();
+
+			try
+			{
+				object result = command.ExecuteScalar();
+				connection.Close();				
+				return Convert.ToInt32(result);
+			}
+			catch (Exception)
+			{
+				connection.Close();
+				return 0;
+			}
+		}
 	}
 }
