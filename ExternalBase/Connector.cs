@@ -52,15 +52,20 @@ namespace ExternalBase
 			connection.Close();
 		}
 
-		public static string cmdMaterialization(string column_name, string table)
+		public static int Count(string table)
 		{
-			string cmd = $"SELECT {column_name} FROM {table}";
-			return cmd;
+			int count = 0;
+			string cmd = $"SELECT COUNT(*) FROM {table}";
+			SqlCommand command = new SqlCommand(cmd, connection);
+			connection.Open();
+			count = Convert.ToInt32(command.ExecuteScalar());
+			connection.Close();
+			return count;			
 		}
 
-		public static int ReturnID(string fields, string tables, string condition)
+		public static int ReturnID(string fields, string table, string condition)
 		{
-			string cmd = $"SELECT {fields} FROM {tables} WHERE {condition}";
+			string cmd = $"SELECT {fields} FROM {table} WHERE {condition}";
 			SqlCommand command = new SqlCommand(cmd, connection);
 			connection.Open();
 			try
