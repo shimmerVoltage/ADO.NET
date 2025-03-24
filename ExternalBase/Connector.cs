@@ -52,18 +52,21 @@ namespace ExternalBase
 			connection.Close();
 		}
 
-
-
-		public static int ReturnDisciplineID(string discipline_name)
+		public static string cmdMaterialization(string column_name, string table)
 		{
-			string cmd = $"SELECT discipline_id FROM Disciplines WHERE discipline_name=N'{discipline_name}'";			
+			string cmd = $"SELECT {column_name} FROM {table}";
+			return cmd;
+		}
+
+		public static int ReturnID(string fields, string tables, string condition)
+		{
+			string cmd = $"SELECT {fields} FROM {tables} WHERE {condition}";
 			SqlCommand command = new SqlCommand(cmd, connection);
 			connection.Open();
-
 			try
 			{
 				object result = command.ExecuteScalar();
-				connection.Close();				
+				connection.Close();
 				return Convert.ToInt32(result);
 			}
 			catch (Exception)
@@ -73,23 +76,14 @@ namespace ExternalBase
 			}
 		}
 
+		public static int ReturnDisciplineID(string discipline_name)
+		{				
+			return ReturnID("discipline_id", "Disciplines", $"discipline_name=N'{discipline_name}'");			
+		}
+
 		public static int ReturnTeacherID(string last_name)
 		{
-			string cmd = $"SELECT teacher_id FROM Teachers WHERE last_name=N'{last_name}'";
-			SqlCommand command = new SqlCommand(cmd, connection);
-			connection.Open();
-
-			try
-			{
-				object result = command.ExecuteScalar();
-				connection.Close();
-				return Convert.ToInt32(result);
-			}
-			catch (Exception)
-			{
-				connection.Close();
-				return 0;
-			}
+			return ReturnID("teacher_id", "Teachers", $"last_name=N'{last_name}'");						
 		}
 	}
 }
