@@ -19,8 +19,8 @@ namespace ExternalBase
 			Console.WriteLine("---------------------------------");
 			Connector.Select("*", "Teachers");
 			Console.WriteLine("---------------------------------");
-			Console.WriteLine(Connector.ReturnTeacherID("Лялька"));
 			Console.WriteLine(Connector.ReturnTeacherID("Свищев"));
+			Console.WriteLine(Connector.ReturnTeacherID("Лялька"));
 			Console.WriteLine("---------------------------------");
 			Console.WriteLine(Connector.Count("Teachers"));
 			Console.WriteLine("---------------------------------");
