@@ -24,6 +24,11 @@ namespace Academy
 				);
 
 			dgvStudents.DataSource = connector.Select("*", "Students");
+			dgvGroups.DataSource = connector.Select("*", "Groups");
+			dgvDirections.DataSource = connector.Select("*", "Directions");
+			dgvDisciplines.DataSource = connector.Select("*", "Disciplines");
+			dgvTeachers.DataSource = connector.Select("*", "Teachers");
+			
 		}
 
 		private void statusStrip1_ItemClicked(object sender, ToolStripItemClickedEventArgs e)
