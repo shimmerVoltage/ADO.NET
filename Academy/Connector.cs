@@ -11,7 +11,7 @@ using System.Runtime.InteropServices;
 
 namespace Academy
 {
-	internal class Connector
+	public class Connector
 	{
 		readonly string CONNECTION_STRING;// = ConfigurationManager.ConnectionStrings["PV_319_Import"].ConnectionString;
 		SqlConnection connection;
@@ -66,7 +66,7 @@ namespace Academy
 			reader.Close();
 			connection.Close();
 			return table; 
-			}
+		}
 		
 
 
@@ -74,5 +74,16 @@ namespace Academy
 		public static extern bool AllocConsole();
 		[DllImport("kernel32.dll")]
 		public static extern bool FreeConsole();
+
+		public int Count(string table)
+		{
+			int count = 0;
+			string cmd = $"SELECT COUNT(*) FROM {table}";
+			SqlCommand command = new SqlCommand(cmd, connection);
+			connection.Open();
+			count = Convert.ToInt32(command.ExecuteScalar());
+			connection.Close();
+			return count;
+		}
 	}
 }
