@@ -67,8 +67,8 @@ namespace Academy
 			connection.Close();
 			return table; 
 		}
-		
 
+		
 
 		[DllImport("kernel32.dll")]
 		public static extern bool AllocConsole();
