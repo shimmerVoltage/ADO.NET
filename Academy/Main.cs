@@ -38,10 +38,19 @@ namespace Academy
 							"Groups,Directions",
 							"direction=direction_id"
 						);
+			//dgvDirections.DataSource = connector.Select
+			//			(
+			//				"direction_name,COUNT(DISTINCT group_id) AS N'Количество группов', COUNT(stud_id) AS N'Количество студентов'", 
+			//				"Students,Groups,Directions",
+			//				"[group]=group_id AND direction=direction_id",
+			//				"direction_name"
+			//			);
 			dgvDirections.DataSource = connector.Select
 						(
-							"*", 
-							"Directions"
+							"direction_name,COUNT(DISTINCT group_id) AS N'Количество группов', COUNT(stud_id) AS N'Количество студентов'",
+							"Students RIGHT JOIN Groups ON ([group]=group_id) RIGHT JOIN Directions ON (direction=direction_id)",
+							"",
+							"direction_name"
 						);
 			dgvDisciplines.DataSource = connector.Select
 						(
