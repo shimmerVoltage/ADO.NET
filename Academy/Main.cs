@@ -36,7 +36,7 @@ namespace Academy
 				(
 					"direction_name,COUNT(DISTINCT group_id) AS N'Количество группов', COUNT(stud_id) AS N'Количество студентов'",
 					"Students RIGHT JOIN Groups ON ([group]=group_id) RIGHT JOIN Directions ON (direction=direction_id)",
-					"",
+					"group_id!=0 OR stud_id!=0",
 					"direction_name"
 				),
 				new Query
@@ -194,6 +194,17 @@ namespace Academy
 		int CountRecordsInDGV(DataGridView dgv)
 		{
 			return dgv.Rows.Count == 0 ? 0 : dgv.RowCount - 1;
+		}
+
+		private void checkBox_CheckedChanged(object sender, EventArgs e)
+		{
+			dgvDirections.DataSource = connector.Select
+				(
+					"direction_name,COUNT(DISTINCT group_id) AS N'Количество группов', COUNT(stud_id) AS N'Количество студентов'",
+					"Students RIGHT JOIN Groups ON ([group]=group_id) RIGHT JOIN Directions ON (direction=direction_id)",
+					"",
+					"direction_name"
+				);
 		}
 	}
 }

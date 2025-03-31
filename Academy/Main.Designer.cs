@@ -34,6 +34,7 @@
 			this.tabPageStudents = new System.Windows.Forms.TabPage();
 			this.dgvStudents = new System.Windows.Forms.DataGridView();
 			this.tabPageGroups = new System.Windows.Forms.TabPage();
+			this.cbGroupsDirection = new System.Windows.Forms.ComboBox();
 			this.dgvGroups = new System.Windows.Forms.DataGridView();
 			this.tabPageDirections = new System.Windows.Forms.TabPage();
 			this.dgvDirections = new System.Windows.Forms.DataGridView();
@@ -41,7 +42,7 @@
 			this.dgvDisciplines = new System.Windows.Forms.DataGridView();
 			this.tabPageTeacher = new System.Windows.Forms.TabPage();
 			this.dgvTeachers = new System.Windows.Forms.DataGridView();
-			this.cbGroupsDirection = new System.Windows.Forms.ComboBox();
+			this.checkBox = new System.Windows.Forms.CheckBox();
 			this.statusStrip.SuspendLayout();
 			this.tabControl.SuspendLayout();
 			this.tabPageStudents.SuspendLayout();
@@ -127,6 +128,16 @@
 			this.tabPageGroups.Text = "Groups";
 			this.tabPageGroups.UseVisualStyleBackColor = true;
 			// 
+			// cbGroupsDirection
+			// 
+			this.cbGroupsDirection.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+			this.cbGroupsDirection.FormattingEnabled = true;
+			this.cbGroupsDirection.Location = new System.Drawing.Point(483, 7);
+			this.cbGroupsDirection.Name = "cbGroupsDirection";
+			this.cbGroupsDirection.Size = new System.Drawing.Size(303, 28);
+			this.cbGroupsDirection.TabIndex = 1;
+			this.cbGroupsDirection.SelectedIndexChanged += new System.EventHandler(this.cbGroupsDirection_SelectedIndexChanged);
+			// 
 			// dgvGroups
 			// 
 			this.dgvGroups.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
@@ -143,6 +154,7 @@
 			// 
 			// tabPageDirections
 			// 
+			this.tabPageDirections.Controls.Add(this.checkBox);
 			this.tabPageDirections.Controls.Add(this.dgvDirections);
 			this.tabPageDirections.Location = new System.Drawing.Point(4, 29);
 			this.tabPageDirections.Name = "tabPageDirections";
@@ -216,15 +228,16 @@
 			this.dgvTeachers.Size = new System.Drawing.Size(792, 327);
 			this.dgvTeachers.TabIndex = 0;
 			// 
-			// cbGroupsDirection
+			// checkBox
 			// 
-			this.cbGroupsDirection.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.cbGroupsDirection.FormattingEnabled = true;
-			this.cbGroupsDirection.Location = new System.Drawing.Point(483, 7);
-			this.cbGroupsDirection.Name = "cbGroupsDirection";
-			this.cbGroupsDirection.Size = new System.Drawing.Size(303, 28);
-			this.cbGroupsDirection.TabIndex = 1;
-			this.cbGroupsDirection.SelectedIndexChanged += new System.EventHandler(this.cbGroupsDirection_SelectedIndexChanged);
+			this.checkBox.AutoSize = true;
+			this.checkBox.Location = new System.Drawing.Point(461, 24);
+			this.checkBox.Name = "checkBox";
+			this.checkBox.Size = new System.Drawing.Size(194, 24);
+			this.checkBox.TabIndex = 1;
+			this.checkBox.Text = "Show empty directions";
+			this.checkBox.UseVisualStyleBackColor = true;
+			this.checkBox.CheckedChanged += new System.EventHandler(this.checkBox_CheckedChanged);
 			// 
 			// Main
 			// 
@@ -246,6 +259,7 @@
 			this.tabPageGroups.ResumeLayout(false);
 			((System.ComponentModel.ISupportInitialize)(this.dgvGroups)).EndInit();
 			this.tabPageDirections.ResumeLayout(false);
+			this.tabPageDirections.PerformLayout();
 			((System.ComponentModel.ISupportInitialize)(this.dgvDirections)).EndInit();
 			this.tabPageDisciplines.ResumeLayout(false);
 			((System.ComponentModel.ISupportInitialize)(this.dgvDisciplines)).EndInit();
@@ -272,6 +286,7 @@
 		private System.Windows.Forms.DataGridView dgvTeachers;
 		private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabelCount;
 		private System.Windows.Forms.ComboBox cbGroupsDirection;
+		private System.Windows.Forms.CheckBox checkBox;
 	}
 }
 
