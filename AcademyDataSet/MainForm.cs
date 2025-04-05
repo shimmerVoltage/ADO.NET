@@ -18,6 +18,7 @@ namespace AcademyDataSet
 		readonly string CONNECTION_STRING = "";
 		SqlConnection connection;
 		DataSet GroupsRelatedData;
+		List<string> tables;
 		public MainForm()
 		{
 			InitializeComponent();
@@ -26,12 +27,45 @@ namespace AcademyDataSet
 			connection = new SqlConnection(CONNECTION_STRING);
 			Console.WriteLine(CONNECTION_STRING);
 
-			LoadGroupsRelatedData();
+			tables = new List<string>();
+			GroupsRelatedData = new DataSet(nameof(GroupsRelatedData));
+			//LoadGroupsRelatedData();
+			Check();
+		}
+		void AddTable(string table, string columns)
+		{
+			string[] separated_colimns = columns.Split(',');
+			GroupsRelatedData.Tables.Add(table);
+			for (int i = 0; i < separated_colimns.Length; i++)
+				GroupsRelatedData.Tables[table].Columns.Add(separated_colimns[i]);
+			GroupsRelatedData.Tables[table].PrimaryKey = 
+				new DataColumn[] 
+				{ GroupsRelatedData.Tables[table].Columns[separated_colimns[0]] };
+			tables.Add($"{table},{columns}");
+		}
+		public void AddRelation(string name, string child, string parent)
+		{
+			GroupsRelatedData.Relations.Add
+				(
+					name,
+					GroupsRelatedData.Tables[parent.Split(',')[0]].Columns[parent.Split(',')[1]],
+					GroupsRelatedData.Tables[child.Split(',')[0]].Columns[child.Split(',')[1]]
+
+				);
+		}
+		public void Load()
+		{
+			string[] tables = this.tables.ToArray();
+			for (int i = 0;i < tables.Length;i++)
+			{
+				string cmd = $"SELECT * FROM {tables[i].Split(',')[0]}";
+				SqlDataAdapter adapter = new SqlDataAdapter(cmd, connection);
+				adapter.Fill(GroupsRelatedData.Tables[tables[i].Split(',')[0]]);
+			}
 		}
 		void LoadGroupsRelatedData()
 		{
 			Console.WriteLine(nameof(GroupsRelatedData));
-			GroupsRelatedData = new DataSet(nameof(GroupsRelatedData));
 			const string dsTable_Directions = "Directions";
 			const string dst_col_direction_id = "direction_id";
 			const string dst_col_direction_name = "direction_name";
@@ -79,6 +113,28 @@ namespace AcademyDataSet
 			{
 				Console.WriteLine($"{row[dst_Groups_col_group_id]}\t{row[dst_Groups_col_group_name]}\t{row.GetParentRow(dsRelation_GroupsDirections)[dst_col_direction_name]}");
 			}
+		}
+		void Print(string table)
+		{
+			Console.WriteLine("\n----------------------------------------------\n");
+			foreach(DataRow row in GroupsRelatedData.Tables[table].Rows)
+			{
+				for(int i = 0; i < row.ItemArray.Length; i++)
+				{
+					Console.Write(row[i].ToString() + "\t");
+				}
+				Console.WriteLine();
+			}
+			Console.WriteLine("\n----------------------------------------------\n");
+		}
+		void Check()
+		{
+			AddTable("Directions", "direction_id,direction_name");
+			AddTable("Groups", "group_id,group_name,direction");
+			AddRelation("GroupsDirections", "Groups,direction","Directions,direction_id");
+			Load();
+			Print("Directions");
+			Print("Groups");
 		}
 		[DllImport("kernel32.dll")]
 		public static extern bool AllocConsole();
