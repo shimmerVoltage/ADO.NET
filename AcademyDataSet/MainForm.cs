@@ -34,6 +34,13 @@ namespace AcademyDataSet
 			GroupsRelatedData = new DataSet(nameof(GroupsRelatedData));
 			//LoadGroupsRelatedData();
 			Check();
+			cbDirections.DataSource = GroupsRelatedData.Tables["Directions"];
+			cbDirections.DisplayMember = "direction_name";
+			cbDirections.ValueMember = "direction_id";
+
+			cbGroups.DataSource = GroupsRelatedData.Tables["Groups"];
+			cbGroups.DisplayMember = "group_name";
+			cbGroups.ValueMember = "group_id";
 		}
 		void AddTable(string table, string columns)
 		{
@@ -53,7 +60,6 @@ namespace AcademyDataSet
 					name,
 					GroupsRelatedData.Tables[parent.Split(',')[0]].Columns[parent.Split(',')[1]],
 					GroupsRelatedData.Tables[child.Split(',')[0]].Columns[child.Split(',')[1]]
-
 				);
 		}
 		public void Load()
@@ -197,6 +203,16 @@ namespace AcademyDataSet
 		[DllImport("kernel32.dll")]
 		public static extern bool AllocConsole();
 		[DllImport("kernel32.dll")]
-		public static extern bool FreeConsole();		
+		public static extern bool FreeConsole();
+
+		private void cbDirections_SelectedIndexChanged(object sender, EventArgs e)
+		{
+			Console.WriteLine(GroupsRelatedData.Tables["Directions"].ChildRelations);
+			//DataRow row = GroupsRelatedData.Tables["Directions"].Rows.Find(cbDirections.SelectedValue);
+			//cbGroups.DataSource = row.GetChildRows("GroupsDirections");
+			//cbGroups.DisplayMember = "group_name";
+			//cbGroups.ValueMember = "group_id";
+			GroupsRelatedData.Tables["Groups"].DefaultView.RowFilter = $"direction={cbDirections.SelectedValue}";
+		}
 	}
 }
