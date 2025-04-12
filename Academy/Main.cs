@@ -9,6 +9,8 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Management;
 using System.Configuration;
+using System.Text.RegularExpressions;
+using static System.Net.Mime.MediaTypeNames;
 
 
 namespace Academy
@@ -16,8 +18,10 @@ namespace Academy
 	public partial class Main : Form
 	{	
 		Connector connector;
-		Dictionary<string, int> d_directions;
-		Dictionary<string, int> d_groups;
+		
+		public Dictionary<string, int> d_directions;
+		public Dictionary<string, int> d_groups;
+		
 		DataGridView[] tables;
 		Query[] queries = new Query[]
 			{
@@ -87,44 +91,18 @@ namespace Academy
 							"Students,Groups,Directions",
 							"[group]=group_id AND direction=direction_id"
 						);
-			//dgvGroups.DataSource = connector.Select
-			//			(
-			//				"group_name,dbo.GetLearningDaysFor(group_name) AS weekdays,start_time,direction_name",
-			//				"Groups,Directions",
-			//				"direction=direction_id"
-			//			);
-			//dgvDirections.DataSource = connector.Select
-			//			(
-			//				"direction_name,COUNT(DISTINCT group_id) AS N'Количество группов', COUNT(stud_id) AS N'Количество студентов'", 
-			//				"Students,Groups,Directions",
-			//				"[group]=group_id AND direction=direction_id",
-			//				"direction_name"
-			//			);
-			//dgvDirections.DataSource = connector.Select
-			//			(
-			//				"direction_name,COUNT(DISTINCT group_id) AS N'Количество группов', COUNT(stud_id) AS N'Количество студентов'",
-			//				"Students RIGHT JOIN Groups ON ([group]=group_id) RIGHT JOIN Directions ON (direction=direction_id)",
-			//				"",
-			//				"direction_name"
-			//			);
-			//dgvDisciplines.DataSource = connector.Select
-			//			(
-			//				"*", 
-			//				"Disciplines"
-			//			);
-			//dgvTeachers.DataSource = connector.Select
-			//			(
-			//				"*", 
-			//				"Teachers"
-			//			);
+			
 			d_directions = connector.GetDictionary("*", "Directions");
 			d_groups = connector.GetDictionary("group_id,group_name", "Groups");
 			cbStudentsGroup.Items.AddRange(d_groups.Select(g => g.Key).ToArray());
 			cbGroupsDirection.Items.AddRange(d_directions.Select(d => d.Key).ToArray());
 			cbStudentsDirection.Items.AddRange(d_directions.Select(d => d.Key).ToArray());
-			cbStudentsDirection.Items.Insert(0, "Все направления");
 			cbStudentsGroup.Items.Insert(0, "Все группы");
-			cbStudentsDirection.SelectedIndex = cbStudentsGroup.SelectedIndex = 0;
+			cbStudentsDirection.Items.Insert(0, "Все направления");
+			cbGroupsDirection.Items.Insert(0, "Все направления");
+			cbStudentsGroup.SelectedIndex = 0;
+			cbStudentsDirection.SelectedIndex = 0;
+			cbGroupsDirection.SelectedIndex = 0;
 
 			toolStripStatusLabelCount.Text = $"Количество студентов: {dgvStudents.RowCount - 1}";
 		}		
@@ -152,6 +130,8 @@ namespace Academy
 		}
 		private void tabControl_SelectedIndexChanged(object sender, EventArgs e)
 		{
+			string tab_name = tabControl.SelectedTab.Name;
+			Console.WriteLine(tab_name);
 			//int i = tabControl.SelectedIndex;
 			LoadPage(tabControl.SelectedIndex);
 			//switch (tabControl.SelectedIndex)
@@ -188,18 +168,7 @@ namespace Academy
 			//		toolStripStatusLabelCount.Text = $"Количество преподавателев: {dgvTeachers.RowCount - 1}";
 			//	break;				
 			//}
-		}
-
-		private void cbGroupsDirection_SelectedIndexChanged(object sender, EventArgs e)
-		{
-			dgvGroups.DataSource = connector.Select
-						(
-							"group_name,dbo.GetLearningDaysFor(group_name) AS weekdays,start_time,direction_name",
-							"Groups,Directions",
-							$"direction=direction_id AND direction = N'{d_directions[cbGroupsDirection.SelectedItem.ToString()]}'"
-						);
-			toolStripStatusLabelCount.Text = $"Количество групп: {CountRecordsInDGV(dgvGroups)}";
-		}
+		}		
 
 		int CountRecordsInDGV(DataGridView dgv)
 		{
@@ -217,30 +186,35 @@ namespace Academy
 				);
 		}
 
-		private void cbStudentsDirection_SelectedIndexChanged(object sender, EventArgs e)
+		private void cbDirection_SelectedIndexChanged(object sender, EventArgs e)
 		{
-			int i = cbStudentsDirection.SelectedIndex;
+			string cb_name = (sender as ComboBox).Name;
+			string tab_name = tabControl.SelectedTab.Name;
+			
+			int lastCapitalIndex = Array.FindLastIndex<char>(cb_name.ToCharArray(), Char.IsUpper);
+			string cb_suffix = cb_name.Substring(lastCapitalIndex, cb_name.Length - lastCapitalIndex);
+			Console.WriteLine(cb_name);
+			Console.WriteLine(tab_name);
+			Console.WriteLine(cb_suffix);
+			
+			string dictionary_name = $"d_{cb_suffix.ToLower()}s";
+			Dictionary<string, int> dictionary = 
+				this.GetType().GetField(dictionary_name).GetValue(this) as Dictionary<string, int>;
+			int i = (sender as ComboBox).SelectedIndex;
 			Dictionary<string, int> d_groups = connector.GetDictionary
 				(
-					"group_id,group_name", 
+					"group_id,group_name",
 					"Groups",
-					i == 0 ? "" : $"direction={d_directions[cbStudentsDirection.SelectedItem.ToString()]}"
+					i == 0 ? "" : $"{cb_suffix.ToLower()}={dictionary[(sender as ComboBox).SelectedItem.ToString()]}"
 				);
 			cbStudentsGroup.Items.Clear();
 			cbStudentsGroup.Items.AddRange(d_groups.Select(g => g.Key).ToArray());
-			//cbStudentsGroup.Items.Insert(0, "Все группы");
-
-			int t = tabControl.SelectedIndex;
-			//dgvStudents.DataSource = 
-			//	connector.Select
-			//	(
-			//		queries[t].Columns, 
-			//		queries[t].Tables,
-			//		i == 0 ? "" : $"direction={ d_directions[cbStudentsDirection.SelectedItem.ToString()]}"
-			//	);
-			Query query = new Query(queries[0]);
-			query.Condition = (i == 0 || cbStudentsDirection.SelectedItem == null ? "" : $"direction={d_directions[cbStudentsDirection.SelectedItem.ToString()]}");
-			LoadPage(0, query);
+			Query query = new Query(queries[tabControl.SelectedIndex]);
+			string condition = 
+				(i == 0 || cbStudentsDirection.SelectedItem == null ? "" : $"{cb_suffix.ToLower()}={dictionary[$"{(sender as ComboBox).SelectedItem}"]}");
+			if (query.Condition == "") query.Condition = condition;
+			else if (condition != "") query.Condition += $" AND {condition}";
+			LoadPage(tabControl.SelectedIndex, query);
 		}
 	}
 }

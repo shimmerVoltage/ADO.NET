@@ -23,13 +23,12 @@ namespace AcademyDataSet
 			AllocConsole();
 
 			GroupsRelatedData = new Cache();
-			//GroupsRelatedData.AddTable("Directions", "direction_id,direction_name");
-			//GroupsRelatedData.AddTable("Groups", "group_id,group_name,direction");
-			//GroupsRelatedData.AddRelation("GroupsDirections", "Groups,direction","Directions,direction_id");
-			//GroupsRelatedData.Load();
-			//GroupsRelatedData.Print("Directions");
-			//GroupsRelatedData.Print("Groups");
-			CacheStuff();
+			GroupsRelatedData.AddTable("Directions", "direction_id,direction_name");
+			GroupsRelatedData.AddTable("Groups", "group_id,group_name,direction");
+			GroupsRelatedData.AddRelation("GroupsDirections", "Groups,direction","Directions,direction_id");
+			GroupsRelatedData.Load();
+			GroupsRelatedData.Print("Directions");
+			GroupsRelatedData.Print("Groups");
 
 			cbDirections.DataSource = GroupsRelatedData.Set.Tables["Directions"];
 			cbDirections.DisplayMember = "direction_name";
@@ -47,17 +46,7 @@ namespace AcademyDataSet
 			//cbGroups.DisplayMember = "group_name";
 			//cbGroups.ValueMember = "group_id";
 			GroupsRelatedData.Set.Tables["Groups"].DefaultView.RowFilter = $"direction={cbDirections.SelectedValue}";
-		}
-		
-		public void CacheStuff()
-		{
-			GroupsRelatedData.AddTable("Directions", "direction_id,direction_name");
-			GroupsRelatedData.AddTable("Groups", "group_id,group_name,direction");
-			GroupsRelatedData.AddRelation("GroupsDirections", "Groups,direction", "Directions,direction_id");
-			GroupsRelatedData.Load();
-			GroupsRelatedData.Print("Directions");
-			GroupsRelatedData.Print("Groups");
-		}
+		}		
 
 		[DllImport("kernel32.dll")]
 		public static extern bool AllocConsole();
@@ -66,8 +55,7 @@ namespace AcademyDataSet
 
 		private void btn_refresh_Click(object sender, EventArgs e)
 		{
-			GroupsRelatedData.Null();
-			CacheStuff();
+			
 		}
 	}
 }

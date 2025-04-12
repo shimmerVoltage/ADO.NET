@@ -29,14 +29,6 @@ namespace AcademyDataSet
 			//LoadGroupsRelatedData();
 			//Check();
 		}
-		
-		public void Null()
-		{
-			tables.Clear();
-			Set.Clear();
-			tables = new List<string>();
-			Set = new DataSet(nameof(Set));
-		}
 
 		public void AddTable(string table, string columns)
 		{
