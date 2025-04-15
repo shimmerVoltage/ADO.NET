@@ -1,6 +1,6 @@
 ﻿namespace Academy
 {
-	partial class Main
+	partial class MainForm
 	{
 		/// <summary>
 		/// Required designer variable.
@@ -69,7 +69,6 @@
 			this.statusStrip.Size = new System.Drawing.Size(800, 22);
 			this.statusStrip.TabIndex = 0;
 			this.statusStrip.Text = "statusStrip";
-			this.statusStrip.ItemClicked += new System.Windows.Forms.ToolStripItemClickedEventHandler(this.statusStrip1_ItemClicked);
 			// 
 			// toolStripStatusLabelCount
 			// 
@@ -90,7 +89,6 @@
 			this.tabControl.Size = new System.Drawing.Size(800, 428);
 			this.tabControl.TabIndex = 1;
 			this.tabControl.SelectedIndexChanged += new System.EventHandler(this.tabControl_SelectedIndexChanged);
-			this.tabControl.ContextMenuStripChanged += new System.EventHandler(this.Main_Load);
 			// 
 			// tabPageStudents
 			// 
@@ -104,7 +102,6 @@
 			this.tabPageStudents.TabIndex = 0;
 			this.tabPageStudents.Text = "Students";
 			this.tabPageStudents.UseVisualStyleBackColor = true;
-			this.tabPageStudents.Click += new System.EventHandler(this.tabPageStudents_Click);
 			// 
 			// cbStudentsDirection
 			// 
@@ -114,7 +111,7 @@
 			this.cbStudentsDirection.Name = "cbStudentsDirection";
 			this.cbStudentsDirection.Size = new System.Drawing.Size(298, 28);
 			this.cbStudentsDirection.TabIndex = 2;
-			this.cbStudentsDirection.SelectedIndexChanged += new System.EventHandler(this.cbDirection_SelectedIndexChanged);
+			this.cbStudentsDirection.SelectedIndexChanged += new System.EventHandler(this.ComboBox_SelectedIndexChanged);
 			// 
 			// cbStudentsGroup
 			// 
@@ -123,7 +120,7 @@
 			this.cbStudentsGroup.Name = "cbStudentsGroup";
 			this.cbStudentsGroup.Size = new System.Drawing.Size(314, 28);
 			this.cbStudentsGroup.TabIndex = 1;
-			this.cbStudentsGroup.SelectedIndexChanged += new System.EventHandler(this.cbStudentsGroup_SelectedIndexChanged);
+			this.cbStudentsGroup.SelectedIndexChanged += new System.EventHandler(this.ComboBox_SelectedIndexChanged);
 			// 
 			// dgvStudents
 			// 
@@ -160,7 +157,7 @@
 			this.cbGroupsDirection.Name = "cbGroupsDirection";
 			this.cbGroupsDirection.Size = new System.Drawing.Size(303, 28);
 			this.cbGroupsDirection.TabIndex = 1;
-			this.cbGroupsDirection.SelectedIndexChanged += new System.EventHandler(this.cbDirection_SelectedIndexChanged);
+			this.cbGroupsDirection.SelectedIndexChanged += new System.EventHandler(this.ComboBox_SelectedIndexChanged);
 			// 
 			// dgvGroups
 			// 
@@ -263,7 +260,7 @@
 			this.dgvTeachers.Size = new System.Drawing.Size(792, 327);
 			this.dgvTeachers.TabIndex = 0;
 			// 
-			// Main
+			// MainForm
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -271,10 +268,9 @@
 			this.Controls.Add(this.tabControl);
 			this.Controls.Add(this.statusStrip);
 			this.MinimumSize = new System.Drawing.Size(640, 480);
-			this.Name = "Main";
+			this.Name = "MainForm";
 			this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
 			this.Text = "Academy";
-			this.Load += new System.EventHandler(this.Main_Load);
 			this.statusStrip.ResumeLayout(false);
 			this.statusStrip.PerformLayout();
 			this.tabControl.ResumeLayout(false);
