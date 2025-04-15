@@ -216,5 +216,10 @@ namespace Academy
 			else if (condition != "") query.Condition += $" AND {condition}";
 			LoadPage(tabControl.SelectedIndex, query);
 		}
+
+		private void cbStudentsGroup_SelectedIndexChanged(object sender, EventArgs e)
+		{
+
+		}
 	}
 }
